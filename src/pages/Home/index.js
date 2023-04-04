@@ -1,31 +1,39 @@
-import React, {useState} from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, {useState, useLayoutEffect} from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import PromoCard from '../../components/PromoCard';
 
+let promos = [
+  {key: 1, name: 'X-salada', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 2, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela',  image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 3, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 4, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 5, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+]
+
 let lanches = [
-  {key: 1, name: 'X-salada', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 2, name: 'X-tudo', description: '2 X-burguer',  image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 3, name: 'X-tudo', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 4, name: 'X-tudo', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 5, name: 'X-tudo', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 1, name: 'X-salada', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 2, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela',  image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 3, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 4, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
+  {key: 5, name: 'X-tudo', description: 'pão, alface, tomate, maionese e ketchup, hamburguer 120gr, queijo mussarela', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg", promo: true},
 ]
 
 let bebidas = [
-  {key: 1, name: 'coca', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 2, name: 'suco', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 3, name: 'guarana', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 4, name: 'cerveja', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 5, name: 'pepsi', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 1, name: 'coca', description: 'suco natural da fruta, 120gr de laranja com açucar e gelo á gosto', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 2, name: 'suco', description: 'suco natural da fruta, 120gr de laranja com açucar e gelo á gosto', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 3, name: 'guarana', description: 'suco natural da fruta, 120gr de laranja com açucar e gelo á gosto', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 4, name: 'cerveja', description: 'suco natural da fruta, 120gr de laranja com açucar e gelo á gosto', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 5, name: 'pepsi', description: 'suco natural da fruta, 120gr de laranja com açucar e gelo á gosto', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
 ]
 
 let doces = [
-  {key: 1, name: 'pizza doce de leite', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 2, name: 'pizza brigadeiro', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 3, name: 'pizza morango', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 4, name: 'pizza morango', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
-  {key: 5, name: 'pizza morango', description: '2 X-burguer', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 1, name: 'pizza doce de leite', description: 'chocolate meio amargo junto a nutella, confetes, fatias de morango e leite condensado em cima', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 2, name: 'pizza brigadeiro', description: 'chocolate meio amargo junto a nutella, confetes, fatias de morango e leite condensado em cima', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 3, name: 'pizza morango', description: 'chocolate meio amargo junto a nutella, confetes, fatias de morango e leite condensado em cima', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 4, name: 'pizza morango', description: 'chocolate meio amargo junto a nutella, confetes, fatias de morango e leite condensado em cima', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
+  {key: 5, name: 'pizza morango', description: 'chocolate meio amargo junto a nutella, confetes, fatias de morango e leite condensado em cima', image: "https://img.freepik.com/fotos-gratis/hamburguer-de-vista-frontal-em-um-carrinho_141793-15542.jpg?size=626&ext=jpg"},
 ]
 
 export default function Home() {
@@ -39,20 +47,25 @@ export default function Home() {
     navigation.navigate('menulanches')
   }
 
+  useLayoutEffect(() => {
+
+    navigation.setOptions({
+      title: "Lanches NERD"
+    })
+
+  }, [navigation])
+
  return (
     <ScrollView style={[styles.container]}>
     <View>
       <View>
-          <Text>Lanches NERD</Text>
-      </View>
-      <View>
-          <Text style={{fontSize: 22, color: '#141414', marginTop: 15}}>Promoções</Text>
+          <Text style={{fontSize: 22, color: '#141414', marginTop: 15, textAlign:'center', fontSize: 28}}>Promoções</Text>
       </View>
       <View>
           <ScrollView horizontal={true}>
 
             {
-              lanches.map((item, index) => (<PromoCard key={index} data={item}/>))
+              promos.map((item, index) => (<PromoCard key={index} data={item}/>))
             }
                       
           </ScrollView>
@@ -68,8 +81,8 @@ export default function Home() {
             }     
           </ScrollView>
 
-          <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8}} onPress={getMenuLanches}>
-            <Text style={{fontSize: 15}}>Veja o cardápio de Lanches</Text>
+          <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8, alignSelf: 'center', margin: 10}} onPress={getMenuLanches}>
+            <Text style={{fontSize: 15, color: '#141414'}}>Veja o cardápio de Lanches</Text>
           </TouchableOpacity>
       </View>
 
@@ -83,8 +96,8 @@ export default function Home() {
             }     
           </ScrollView>
 
-          <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8}} onPress={getMenuLanches}>
-            <Text style={{fontSize: 15}}>Veja as Bebidas</Text>
+          <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8, alignSelf: 'center', margin: 10}} onPress={getMenuLanches}>
+            <Text style={{fontSize: 15, color: '#141414'}}>Veja as Bebidas</Text>
           </TouchableOpacity>
       </View>
 
@@ -97,14 +110,12 @@ export default function Home() {
           {
               doces.map((item, index) => (<PromoCard key={index} data={item}/>))
             }
+        </ScrollView>
 
-      
-    </ScrollView>
-
-    <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8}}>
-       <Text style={{fontSize: 15}}>Veja o cardápio de Doces</Text>
+    <TouchableOpacity style={{backgroundColor: '#FFBC0C', width: 250, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 8, alignSelf: 'center', margin: 10}}>
+       <Text style={{fontSize: 15, color: '#141414'}}>Veja o cardápio de Doces</Text>
     </TouchableOpacity>
-</View>
+     </View>
     </View>
     
 </ScrollView>
@@ -122,9 +133,8 @@ const styles = StyleSheet.create({
       flexDirection: 'column'
     },
     menuTitle: {
-      fontSize: 28,
+      fontSize: 22,
       color: '#141414',
-      fontWeight: 'bold',
       textAlign: 'center',
       marginTop: 15
     },
@@ -135,8 +145,7 @@ const styles = StyleSheet.create({
       marginTop: 20
     },
     menuText: {
-      fontSize: 20,
-      fontWeight: 'bold',
+      fontSize: 22,
       color: '#141414',
     }
 });

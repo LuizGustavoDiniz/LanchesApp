@@ -15,10 +15,7 @@ export default function PromoCard(props) {
         <View style={styles.promoTitle}>
               <Text style={[styles.promoItemText]}>{props.data.name}</Text>
         </View>
-        <View style={styles.promoDescription}>
-              <Text style={{color: '#141414'}}>{props.data.description}</Text>
-              <Text style={{color: '#141414'}}>{props.data.description}</Text>
-        </View>
+        
         <View>
               <View style={styles.promoDiscount}>
                 <Text style={styles.discountText}>-20%</Text>
@@ -28,6 +25,13 @@ export default function PromoCard(props) {
                 style={styles.promoPhotos}
                 />
         </View>
+
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+             <Text style={{fontSize: 17, textAlign: 'center', fontWeight: 'bold', color: '#141414'}}>R$ 18,99</Text>
+             <Text style={{fontSize: 14, marginLeft: 5, color: '#141414', textDecorationLine: 'line-through'}}>R$ 22,30</Text>
+        </View>
+
+        
 
         <View>
             <TouchableOpacity style={styles.promoItemBtn} onPress={getProduct} >

@@ -14,7 +14,7 @@ function Root() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="menulanches" component={MenuLanches} />
+      <Drawer.Screen name="Cardápio de lanches" component={MenuLanches} />
     </Drawer.Navigator>
   );
 }
